@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace WebApi.Entities;
 
@@ -6,6 +7,7 @@ public class AddressTypeEntity
 {
     [Key]
     public int AddressTypeId { get; set; }
-    public string AddressType { get; set; } = null!;
 
+    [Column(TypeName = "nvarchar(30)")]
+    public string AddressType { get; set; } = null!;
 }

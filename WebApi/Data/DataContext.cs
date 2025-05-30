@@ -10,4 +10,17 @@ public class DataContext(DbContextOptions<DataContext> options) : DbContext(opti
     public DbSet<AddressTypeEntity> AddressTypes { get; set; }
     public DbSet<ContactInfoEntity> ContactInfos { get; set; }
     public DbSet<ContactTypeEntity> ContactTypes { get; set; }
+
+    protected override void OnModelCreating(ModelBuilder modelBuilder)
+    {
+        modelBuilder.Entity<AddressTypeEntity>().HasData(
+            new AddressTypeEntity { AddressTypeId = 1, AddressType = "Delivery Address" },
+            new AddressTypeEntity { AddressTypeId = 2, AddressType = "Billing Address" }
+        );
+
+        modelBuilder.Entity<ContactTypeEntity>().HasData(
+            new ContactTypeEntity { ContactTypeId = 1, ContactType = "Email" },
+            new ContactTypeEntity { ContactTypeId = 2, ContactType = "Phone" }
+        );
+    }
 }
