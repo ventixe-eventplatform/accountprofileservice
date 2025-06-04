@@ -14,10 +14,32 @@ public class AccountProfilesController(IAccountProfileService accountProfileServ
     public async Task<IActionResult> CreateAsync(CreateProfileModel model)
     {
         if (!ModelState.IsValid)
-            return BadRequest(new {Error = "Invalid profile informaiton."});
+            return BadRequest(new {Error = "Invalid profile information."});
 
         var result = await _accountProfileService.CreateAsync(model);
 
         return result.Success ? Ok(result) : StatusCode(500, result.Error);       
+    }
+
+    [HttpPost("update")]
+    public async Task<IActionResult> UpdateAsync(UpdateProfileModel model)
+    {
+        if (!ModelState.IsValid)
+            return BadRequest(new { Error = "Invalid profile information." });
+
+        var result = await _accountProfileService.UpdateAsync(model);
+
+        return result.Success ? Ok(result) : StatusCode(500, new { error = result.Error });
+    }
+
+    [HttpPost("exists")]
+    public async Task<IActionResult> UserExistsAsync([FromBody] UserIdRequest request)
+    {
+        if (!ModelState.IsValid)
+            return BadRequest();
+
+        var result = await _accountProfileService.UserExistsAsync(request);
+
+        return result.Success ? Ok(new { result.Data }) : NotFound(new { result.Data });
     }
 }
