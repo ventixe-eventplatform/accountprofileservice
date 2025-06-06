@@ -35,6 +35,24 @@ public class AccountProfileService(IProfileRepository profileRepository) : IAcco
         }
     }
 
+    public async Task<ProfileModel?> GetProfileAsync(string userId)
+    {
+        try
+        {
+            var entity = await _profileRepository.GetAsync(x => x.UserId == userId, query => query.Include(x => x.AddressInfos.Where(x => x.AddressTypeId == 1)));
+            if (entity == null)
+            {
+                Debug.WriteLine($"No profile found for userId: {userId}");
+                return null!;
+            }
+            return ProfileFactory.Create(entity);
+        }
+        catch (Exception ex)
+        {
+            Debug.WriteLine($"Error fetching profile information: {ex.Message}");
+            return null!;
+        }
+    }
     public async Task<AccountProfileServiceResult> UpdateAsync(UpdateProfileModel model)
     {
         var existingEntity = await _profileRepository.GetAsync(x => x.UserId == model.UserId, query => query.Include(x => x.AddressInfos).Include(x => x.ContactInfos));

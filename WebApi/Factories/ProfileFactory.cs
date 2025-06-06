@@ -62,4 +62,23 @@ public static class ProfileFactory
             }).ToList()
         };
     }
+
+    public static ProfileModel Create(ProfileEntity entity)
+    {
+        return new ProfileModel
+        {
+            UserId = entity.UserId,
+            FirstName = entity.FirstName,
+            LastName = entity.LastName,
+            AddressInfos = entity.AddressInfos.Select(x => new AddressInfoModel
+            {
+                AddressTypeId = x.AddressTypeId,
+                StreetName = x.StreetName,
+                StreetNumber = x.StreetNumber,
+                PostalCode = x.PostalCode,
+                City = x.City,
+                Country = x.Country
+            }).ToList()
+        };
+    }
 }

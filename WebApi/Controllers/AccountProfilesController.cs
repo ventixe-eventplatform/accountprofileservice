@@ -21,6 +21,13 @@ public class AccountProfilesController(IAccountProfileService accountProfileServ
         return result.Success ? Ok(result) : StatusCode(500, result.Error);       
     }
 
+    [HttpGet("{userId}")]
+    public async Task<IActionResult> GetProfileAsync(string userId)
+    {
+        var result = await _accountProfileService.GetProfileAsync(userId);
+        return result != null ? Ok(result) : NotFound();
+    }
+
     [HttpPost("update")]
     public async Task<IActionResult> UpdateAsync(UpdateProfileModel model)
     {

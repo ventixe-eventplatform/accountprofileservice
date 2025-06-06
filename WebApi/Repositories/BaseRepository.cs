@@ -34,6 +34,19 @@ public abstract class BaseRepository<TEntity> : IBaseRepository<TEntity> where T
         }
     }
 
+    public virtual async Task<TEntity?> GetAsync(Expression<Func<TEntity, bool>> predicate, Func<IQueryable<TEntity>, IQueryable<TEntity>>? includeExpression = null)
+    {
+        if (predicate == null)
+            return null;
+
+        IQueryable<TEntity> query = _table;
+
+        if (includeExpression != null)
+            query = includeExpression(query);
+
+        return await query.FirstOrDefaultAsync(predicate);
+    }
+
     public virtual async Task<TEntity> UpdateEntityAsync(Expression<Func<TEntity, bool>> predicate, TEntity updatedEntity)
     {
         if (updatedEntity == null)
@@ -53,19 +66,6 @@ public abstract class BaseRepository<TEntity> : IBaseRepository<TEntity> where T
             Debug.WriteLine($"Error updating entity: {ex.Message}");
             throw;
         }
-    }
-
-    public virtual async Task<TEntity?> GetAsync(Expression<Func<TEntity, bool>> predicate, Func<IQueryable<TEntity>, IQueryable<TEntity>>? includeExpression = null)
-    {
-        if (predicate == null)
-            return null;
-
-        IQueryable<TEntity> query = _table;
-
-        if (includeExpression != null)
-            query = includeExpression(query);
-
-        return await query.FirstOrDefaultAsync(predicate);
     }
 
     public virtual async Task<bool> AlreadyExistsAsync(Expression<Func<TEntity, bool>> predicate)
