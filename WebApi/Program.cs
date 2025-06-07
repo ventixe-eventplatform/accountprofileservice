@@ -15,11 +15,12 @@ builder.Services.AddDbContext<DataContext>(x => x.UseSqlServer(builder.Configura
 
 builder.Services.AddCors(x =>
 {
-    x.AddPolicy("AllowAll", x =>
+    x.AddPolicy("AllowFrontend", x =>
     {
-        x.AllowAnyMethod();
-        x.AllowAnyOrigin();
-        x.AllowAnyHeader();
+        x.WithOrigins("https://https://icy-pebble-08fddfa03.6.azurestaticapps.net")
+            .AllowAnyHeader()
+            .AllowAnyMethod()
+            .AllowCredentials();
     });
 });
 
@@ -27,7 +28,7 @@ var app = builder.Build();
 
 app.MapOpenApi();
 app.UseHttpsRedirection();
-app.UseCors("AllowAll");
+app.UseCors("AllowFrontend");
 
 app.UseAuthentication();
 app.UseAuthorization();
