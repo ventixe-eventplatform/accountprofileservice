@@ -37,13 +37,14 @@ public static class ProfileFactory
         return profile;
     }
 
-    public static ProfileEntity Update(UpdateProfileModel model)
+    public static ProfileEntity Update(UpdateProfileModel model, ProfileEntity existingEntity)
     {
         return new ProfileEntity
         {
             UserId = model.UserId,
             FirstName = model.FirstName,
             LastName = model.LastName,
+            CreatedDate = existingEntity.CreatedDate,
             AddressInfos = model.AddressInfoModels.Select(x => new AddressInfoEntity
             {
                 UserId = model.UserId,

@@ -12,7 +12,7 @@ public class UpdateAddressInfoModel
 
     [Required]
     [StringLength(10)]
-    public string? StreetNumber { get; set; }
+    public string StreetNumber { get; set; } = null!;
 
     [Required]
     [StringLength(10)]

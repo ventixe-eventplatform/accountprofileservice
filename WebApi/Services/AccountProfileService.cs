@@ -53,6 +53,7 @@ public class AccountProfileService(IProfileRepository profileRepository) : IAcco
             return null!;
         }
     }
+
     public async Task<AccountProfileServiceResult> UpdateAsync(UpdateProfileModel model)
     {
         var existingEntity = await _profileRepository.GetAsync(x => x.UserId == model.UserId, query => query.Include(x => x.AddressInfos).Include(x => x.ContactInfos));
@@ -61,7 +62,7 @@ public class AccountProfileService(IProfileRepository profileRepository) : IAcco
 
         try
         {
-            var updatedEntity = ProfileFactory.Update(model);
+            var updatedEntity = ProfileFactory.Update(model, existingEntity);
             await _profileRepository.UpdateProfileEntityAsync(existingEntity, updatedEntity);
             return new AccountProfileServiceResult { Success = true };
         }

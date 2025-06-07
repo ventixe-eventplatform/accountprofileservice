@@ -13,6 +13,6 @@ public class UpdateProfileModel
     [Required]
     [StringLength(50)]
     public string LastName { get; set; } = null!;
-    public IEnumerable<CreateAddressInfoModel> AddressInfoModels { get; set; } = new List<CreateAddressInfoModel>();
-    public IEnumerable<CreateContactInfoModel> ContactInfoModels { get; set; } = new List<CreateContactInfoModel>();
+    public IEnumerable<UpdateAddressInfoModel> AddressInfoModels { get; set; } = new List<UpdateAddressInfoModel>();
+    public IEnumerable<UpdateContactInfoModel> ContactInfoModels { get; set; } = new List<UpdateContactInfoModel>();
 }
